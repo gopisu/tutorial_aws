@@ -39,3 +39,16 @@ Resources:
       #VpcSecurityGroupIds:
       #  - !Ref RDSSubnetGroup
 
+  #DBClusterMasterSecretTargetAttachment:
+  #  Type: 'AWS::SecretsManager::SecretTargetAttachment'
+  #  Properties:
+  #    SecretId: !Ref DBMasterSecret
+  #    TargetId: !Ref DBCluster
+  #    TargetType: 'AWS::RDS::DBCluster'
+  #
+  #DBClusterAppSecretTargetAttachment:
+  #  Type: 'AWS::SecretsManager::SecretTargetAttachment'
+  #  Properties:
+  #    SecretId: !Ref DBAppSecret
+  #    TargetId: !Ref DBCluster
+  #    TargetType: 'AWS::RDS::DBCluster'
