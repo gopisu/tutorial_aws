@@ -1,0 +1,39 @@
+service: efi-serverless
+provider:
+  name: aws
+  architecture: ${param:architecture, 'arm64'}
+  runtime: python3.11
+  stage: ${opt:stage, 'local'}
+  region: ${opt:region, 'us-east-1'}
+  timeout: 30
+  environment:
+    PYTHONPATH: '/var/task/lambdas:/opt/python/lib/site-packages' #/var/task/venv/lib/python3.11/site-packages:
+    LOG_LEVEL: "DEBUG"
+    ENVIRONMENT: LOCAL
+
+layers: ${file(resources/layers.yml):layers}
+
+plugins:
+  - serverless-localstack
+  - serverless-iam-roles-per-function
+  - serverless-appsync-plugin
+  - ./layers/layerInstallPlugin.js
+
+
+custom:
+  localstack:
+    host: http://127.0.0.1
+    stages:
+      - local
+    lambda:
+      mountCode: false
+    autostart: false
+  serverless-iam-roles-per-function:
+    defaultInherit: true
+  vpcConfig: ${file(resources/vpc.yml):vpcConfig}
+
+
+resources:
+  - ${file(resources/secrets.yml)}
+  - ${file(resources/db.yml)}
+  

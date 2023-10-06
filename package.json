@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "serverless": "^3.30.1",
+    "serverless-appsync-plugin": "^1.14.0",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-localstack": "^1.0.6",
+    "serverless-vpc-plugin": "^1.0.5",
+    "shelljs": "^0.8.5"
+  },
+  "resolutions": {
+    "cfn-resolver-lib": "1.1.7"
+  },
+  "scripts": {
+    "deploy": "yarn run start_localstack && run setup && yarn run createdb && yarn run migratedb",
+    "setup": "EXTRA_CORS_ALLOWED_ORIGINS=* LAMBDA_MOUNT_CWD=$(pwd) serverless deploy --param architecture=x86_64 --verbose",
+    "deploy_arm": "yarn run start_localstack && yarn run setup_arm && yarn run createdb && yarn run migratedb",
+    "setup_arm": "EXTRA_CORS_ALLOWED_ORIGINS=* LAMBDA_MOUNT_CWD=$(pwd) DNS_ADDRESS=0.0.0.0 GATEWAY_LISTEN=0.0.0.0:4566 serverless deploy --param architecture=arm64 --verbose",
+    "start_localstack": "./venv/bin/localstack start --detached && ./venv/bin/localstack wait -t 30",
+    "createdb": "serverless invoke -f dbsetup --path ./createdb.json -l",
+    "migratedb": "serverless invoke -f dbmigrations -l",
+    "invoke": "serverless invoke -f",
+    "logs": "serverless logs -f",
+    "deploy_function": "serverless deploy function -f"
+  }
+}
