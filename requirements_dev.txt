@@ -1,0 +1,11 @@
+boto3
+requests
+psycopg2-binary
+sqlalchemy
+alembic
+localstack
+invoke
+pytest
+awscli-local
+gql[all]
+pylint

@@ -1,0 +1,20 @@
+---
+appSync:
+  name: "${self:service}-${self:provider.stage}-graphql"
+  logging:
+    level: ALL
+  authentication:
+      type: API_KEY
+  apiKeys:
+    - test
+  schema: gql_schema/*.graphql
+  dataSources:
+    Lambda_status:
+      type: AWS_LAMBDA
+      description: 'status Lambda DataSource'
+      config:
+        functionName: status
+        serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+
+  resolvers:
+    - ${file(resources/resolvers/generic.yml)}

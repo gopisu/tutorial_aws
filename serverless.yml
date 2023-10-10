@@ -1,4 +1,6 @@
 service: efi-serverless
+frameworkVersion: '3'
+configValidationMode: error
 provider:
   name: aws
   architecture: ${param:architecture, 'arm64'}
@@ -9,6 +11,8 @@ provider:
   environment:
     PYTHONPATH: '/var/task/lambdas:/opt/python/lib/site-packages' #/var/task/venv/lib/python3.11/site-packages:
     LOG_LEVEL: "DEBUG"
+    LS_LOG: "trace"
+    DEBUG: "1"
     ENVIRONMENT: LOCAL
 
 layers: ${file(resources/layers.yml):layers}
@@ -18,7 +22,6 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-appsync-plugin
   - ./layers/layerInstallPlugin.js
-
 
 custom:
   localstack:
@@ -32,8 +35,25 @@ custom:
     defaultInherit: true
   vpcConfig: ${file(resources/vpc.yml):vpcConfig}
 
+appSync: ${file(resources/appSync.yml):appSync}
 
 resources:
   - ${file(resources/secrets.yml)}
   - ${file(resources/db.yml)}
-  
+  - ${file(resources/iam.yml)}
+
+functions:
+  - ${file(resources/setup_functions.yml)}
+  - ${file(resources/graphql_functions.yml)}
+
+package:
+  individually: true
+  patterns:
+    - '!**/**'
+    - 'lambdas/__init__.py'
+    - 'lambdas/utils/dt_utils.py'
+    - 'lambdas/utils/str_utils.py'
+    - 'lambdas/utils/validators.py'
+    - 'lambdas/utils/common.py'
+    - 'lambdas/services/db_manager.py'
+    - 'lambdas/services/secrets_service.py'

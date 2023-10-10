@@ -1,14 +1,11 @@
 {
   "dependencies": {
-    "serverless": "^3.30.1",
-    "serverless-appsync-plugin": "^1.14.0",
+    "serverless": "^3.35.2",
+    "serverless-appsync-plugin": "^2.3.1",
     "serverless-iam-roles-per-function": "^3.2.0",
-    "serverless-localstack": "^1.0.6",
-    "serverless-vpc-plugin": "^1.0.5",
+    "serverless-localstack": "^1.1.2",
+    "serverless-vpc-plugin": "^1.0.6",
     "shelljs": "^0.8.5"
-  },
-  "resolutions": {
-    "cfn-resolver-lib": "1.1.7"
   },
   "scripts": {
     "deploy": "yarn run start_localstack && run setup && yarn run createdb && yarn run migratedb",

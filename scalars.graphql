@@ -1,0 +1,14 @@
+directive @aws_cognito_user_pools(cognito_groups: [String]) on OBJECT | FIELD_DEFINITION | ENUM_VALUE | FIELD
+directive @aws_auth(cognito_groups: [String]) on OBJECT | FIELD_DEFINITION | ENUM_VALUE | FIELD
+directive @aws_subscribe(mutations: [String]) on OBJECT | FIELD_DEFINITION | ENUM_VALUE | FIELD
+directive @aws_iam on OBJECT | FIELD_DEFINITION | ENUM_VALUE | FIELD
+
+scalar AWSDate
+scalar AWSTime
+scalar AWSDateTime
+scalar AWSTimestamp
+scalar AWSEmail
+scalar AWSJSON
+scalar AWSPhone
+scalar AWSURL
+scalar AWSIPAddress

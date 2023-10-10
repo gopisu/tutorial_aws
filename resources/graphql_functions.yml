@@ -1,0 +1,20 @@
+status:
+  handler: lambdas/status.handler
+  layers:
+    - !Ref CommonLambdaLayer
+    - !Ref AppLambdaLayer
+  package:
+    patterns:
+      - 'lambdas/status.py'
+      - 'lambdas/models.py'
+      - 'lambdas/dao/**'
+      - 'lambdas/services/**'
+      - '!**/__pycache__/**'
+  environment:
+    DB_APP_SECRET_ARN:
+      Ref: DBAppSecret
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - secretsmanager:GetSecretValue
+      Resource: !Ref DBAppSecret

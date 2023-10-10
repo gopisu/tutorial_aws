@@ -1,0 +1,44 @@
+dbsetup:
+  layers:
+    - !Ref CommonLambdaLayer
+    - !Ref AppLambdaLayer
+  handler: lambdas/migrations/db_setup.handler
+  timeout: 120
+  package:
+    patterns:
+      - 'lambdas/migrations/db_setup.py'
+      - '!**/__pycache__/**'
+  environment:
+    DB_MASTER_SECRET_ARN:
+      Ref: DBMasterSecret
+    DB_APP_SECRET_ARN:
+      Ref: DBAppSecret
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - secretsmanager:GetSecretValue
+      Resource:
+        - !Ref DBMasterSecret
+        - !Ref DBAppSecret
+
+dbmigrations:
+  layers:
+    - !Ref CommonLambdaLayer
+    - !Ref AppLambdaLayer
+    - !Ref MigrationsLambdaLayer
+  handler: lambdas/migrations/migrations.handler
+  package:
+    patterns:
+      - 'lambdas/migrations/**'
+      - 'lambdas/models.py'
+      - '!**/__pycache__/**'
+      - '!lambdas/migrations/db_setup.py'
+  environment:
+    DB_APP_SECRET_ARN:
+      Ref: DBAppSecret
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - secretsmanager:GetSecretValue
+      Resource: !Ref DBAppSecret
+
