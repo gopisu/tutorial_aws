@@ -1,5 +1,7 @@
 # AWS serverless backend developer recruitment task
 
+Instructions for setting up your development environment can be found from [INSTRUCTIONS.md](INSTRUCTIONS.md)
+
 ## Implementation ideas
 - Fork the task repository to your Github account. Make sure that the repository is public.
 - Whatever you implement provide unit and integration tests with the implementation
