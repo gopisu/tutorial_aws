@@ -2,7 +2,8 @@
 
 ## Setup
 - Instructions for setting up your development environment can be found from [INSTRUCTIONS.md](INSTRUCTIONS.md)
-- Fork the task repository to your Github account. Make sure that the repository is public.
+- Clone the task repository to your workstation. Do not fork the task repository. The forks are visible to everyone.
+- Create a new public repository to GitHub and push your commits for the task there
 
 ## Application development 
 - Everything you implement should have tests (unit / integration)
@@ -28,7 +29,7 @@
 
 ## Returning the task
 - Commit all code, documentation and architecture image to your forked repository
-- Make sure that your Github repository is accessible and provide the link to it
+- Make sure that your Github repository is accessible (public) and provide the link to it
 
 
 
