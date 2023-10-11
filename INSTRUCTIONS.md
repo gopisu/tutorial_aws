@@ -1,11 +1,13 @@
 # AWS serverless backend developer recruitment task setup instructions
 
 ## Setting up the environment
-- You need to have docker and docker-compose installed.
-  - For Macos Docker desktop is recommended https://www.docker.com/products/docker-desktop/
+- You need to have [Docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed.
+  - For Macos [Docker desktop](https://www.docker.com/products/docker-desktop/) is recommended
 - You need to have account for Localstack Pro. If you don't you can get a free trial from https://localstack.cloud/
-- Install NodeJS v16+
-- Install Yarn globally
+- Install [AWS Command Line Interface](https://aws.amazon.com/cli/)
+- Install [NodeJS](https://nodejs.org/en) v18+
+- Install [Yarn](https://yarnpkg.com/) globally
+- Install [Python](https://www.python.org/) 3.11
 
 ## Setting up AWS profile for running the environment and tests
 - Run all the commands on the repository root directory
