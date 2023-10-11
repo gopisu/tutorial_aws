@@ -28,7 +28,7 @@
 - List improvement suggestions that you would do if there was more time / this would be a real application
 
 ## Returning the task
-- Commit all code, documentation and architecture image to your forked repository
+- Commit all code, documentation and architecture image to your GitHub repository
 - Make sure that your Github repository is accessible (public) and provide the link to it
 
 
