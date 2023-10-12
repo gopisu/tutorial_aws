@@ -4,6 +4,7 @@
 - Instructions for setting up your development environment can be found from [INSTRUCTIONS.md](INSTRUCTIONS.md)
 - Clone the task repository to your workstation. Do not fork the task repository. The forks are visible to everyone.
 - Create a new public repository to GitHub and push your commits for the task there
+- Original commit log of the task repository must be preserved.
 
 ## Application development 
 - Everything you implement should have tests (unit / integration)
