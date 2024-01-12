@@ -3,7 +3,7 @@ frameworkVersion: '3'
 configValidationMode: error
 provider:
   name: aws
-  architecture: ${param:architecture, 'arm64'}
+  architecture: ${param:architecture, 'x86_64'}
   runtime: python3.11
   stage: ${opt:stage, 'local'}
   region: ${opt:region, 'us-east-1'}
@@ -24,6 +24,15 @@ plugins:
   - ./layers/layerInstallPlugin.js
 
 custom:
+  outputToEnv:
+    map:
+      VITE_USER_POOL_ID: UserPoolId
+      VITE_GRAPHQL_API_URL: AppSyncUrl
+      # VITE_REST_API_URL:
+      VITE_REGION: Region
+      VITE_HOSTED_UI: HostedUI
+      VITE_USER_POOL_CLIENT_ID: UserPoolClientId
+      VITE_LOCAL: Local
   localstack:
     host: http://127.0.0.1
     stages:

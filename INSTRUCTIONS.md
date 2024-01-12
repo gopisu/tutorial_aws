@@ -39,6 +39,26 @@ You can execute the unit and integration tests with a command `invoke alltests`
 ## Tips
 - You can run the environment also on dev container
 - Read through tasks.py. It defines your invoke tasks.
+- For running the invoke tasks properly you need to have a file called .env with the folowing contents on the root folder of the repository
+```
+DB_MASTER_SECRET={"dbClusterIdentifier":"local-db-cluster","password":"postgres","dbname":"possu","engine":"postgres","port":5432,"host":"localhost","username":"postgres"}
+DB_APP_SECRET={"dbClusterIdentifier":"local-db-cluster","password":"exampledb","dbname":"exampledb","engine":"postgres","port":5432,"host":"localhost","username":"exampledb"}
+DB_ENC_SECRET=thisisgeneratedontheprodbysecretsmanager
+
+LOG_LEVEL="DEBUG"
+LS_LOG="trace"
+DEBUG="1"
+```
+- If you need for some reason run invoke tasks against the database started by localstack the db port must be 4510
+```
+DB_MASTER_SECRET={"dbClusterIdentifier":"local-db-cluster","password":"postgres","dbname":"possu","engine":"postgres","port":4510,"host":"localhost","username":"postgres"}
+DB_APP_SECRET={"dbClusterIdentifier":"local-db-cluster","password":"exampledb","dbname":"exampledb","engine":"postgres","port":4510,"host":"localhost","username":"exampledb"}
+DB_ENC_SECRET=thisisgeneratedontheprodbysecretsmanager
+
+LOG_LEVEL="DEBUG"
+LS_LOG="trace"
+DEBUG="1"
+```
 
 ### Generating database migrations
 - Run separate instance of the PostgreSQL database by starting it up with the following command ´docker-compose up -d´

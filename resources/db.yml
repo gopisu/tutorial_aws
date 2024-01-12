@@ -4,51 +4,13 @@ Resources:
     DeletionPolicy: Snapshot
     UpdateReplacePolicy: Snapshot
     Properties:
-      DBClusterIdentifier: "${self:service}-${self:provider.stage}-app-cluster"
-      #DBClusterParameterGroupName: !Ref DBClusterParameterGroup
-      #DBSubnetGroupName: !Ref RDSSubnetGroup
+      DBClusterIdentifier: "${self:service}-${self:provider.stage}-db-cluster"
       EnableHttpEndpoint: true
       Engine: aurora-postgresql
       EngineMode: serverless
       EngineVersion: "11"
-      MasterUsername:
-        !Join [
-          "",
-          [
-            "{{resolve:secretsmanager:",
-            !Ref DBMasterSecret,
-            ":SecretString:username}}",
-          ],
-        ]
-      MasterUserPassword:
-        !Join [
-          "",
-          [
-            "{{resolve:secretsmanager:",
-            !Ref DBMasterSecret,
-            ":SecretString:password}}",
-          ],
-        ]
-      # ScalingConfiguration:
-      #   AutoPause: false
-      #   MaxCapacity: 4
-      #   MinCapacity: 2
-      #   SecondsUntilAutoPause: 1800 # 30 min
+      DatabaseName: test
+      MasterUsername: possu
+      MasterUserPassword: test
       StorageEncrypted: true
       UseLatestRestorableTime: true
-      #VpcSecurityGroupIds:
-      #  - !Ref RDSSubnetGroup
-
-  #DBClusterMasterSecretTargetAttachment:
-  #  Type: 'AWS::SecretsManager::SecretTargetAttachment'
-  #  Properties:
-  #    SecretId: !Ref DBMasterSecret
-  #    TargetId: !Ref DBCluster
-  #    TargetType: 'AWS::RDS::DBCluster'
-  #
-  #DBClusterAppSecretTargetAttachment:
-  #  Type: 'AWS::SecretsManager::SecretTargetAttachment'
-  #  Properties:
-  #    SecretId: !Ref DBAppSecret
-  #    TargetId: !Ref DBCluster
-  #    TargetType: 'AWS::RDS::DBCluster'

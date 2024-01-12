@@ -1,4 +1,5 @@
 import json
+import logging as log
 from logging.config import fileConfig
 
 from alembic import context
@@ -42,6 +43,7 @@ def run_migrations_offline():
     secret_json = secrets_service.get_secret_value('db-app-secret')
     secret = json.loads(secret_json)
     url = db_manager.get_db_url(secret, 'exampledb')
+    log.warning(f"GOT DB URL: {url}")
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -63,7 +65,7 @@ def run_migrations_online():
     secret_json = secrets_service.get_secret_value('db-app-secret')
     secret = json.loads(secret_json)
     url = db_manager.get_db_url(secret, 'exampledb')
-
+    log.warning(f"GOT DB URL: {url}")
     configuration = config.get_section(config.config_ini_section)
     configuration['sqlalchemy.url'] = url
     connectable = engine_from_config(

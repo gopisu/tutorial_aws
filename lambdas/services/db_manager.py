@@ -1,10 +1,12 @@
 import logging as log
+import os
 from functools import wraps
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
 from lambdas.services import secrets_service
+from lambdas.utils import common
 from lambdas.utils.common import Singleton, ServiceException
 
 
@@ -14,7 +16,8 @@ def get_db_url(secret: dict, db_name: str) -> str:
 
 
 def get_app_db():
-    return DbManager(connection_secret='db-app-secret', db_name='exampledb')
+    debug = common.get_boolean(os.environ.get('DEBUG', 'False'))
+    return DbManager(connection_secret='db-app-secret', db_name='exampledb', debug=debug)
 
 
 # noinspection PyTypeChecker
@@ -47,13 +50,15 @@ class DbManager(metaclass=Singleton):  # pylint: disable=too-many-instance-attri
         return self
 
     def __exit__(self, *args, **kwargs):
-        self.session.close()
-        self.session = None
+        if self.session is not None:
+            self.session.close()
+            self.session = None
 
     def __init_connection(self):
         self._engine = create_engine(
             url=get_db_url(self.secret, self.db_name),
             echo=self.debug,
+            echo_pool=self.debug,
             future=True,
             pool_pre_ping=self.pool_pre_ping,
             pool_recycle=self.pool_recycle,

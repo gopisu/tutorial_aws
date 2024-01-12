@@ -1,6 +1,7 @@
 import json
 import logging as log
 import sys
+from typing import Optional
 
 from sqlalchemy import text
 
@@ -20,26 +21,45 @@ def setup_db(event):
     if action is None:
         return {'success': False, 'message': "Action not defined"}
 
+    if action not in ['create', 'drop-db', 'drop-user']:
+        return {'success': False,
+                'message': "Unknown action. Valid actions are 'create', 'drop-db' and 'drop-user'"}
+
     try:
+        success: bool = False
+        message: Optional[str] = None
         db_manager = DbManager(connection_secret='db-master-secret', db_name='postgres', isolation_level='AUTOCOMMIT')
         with db_manager as db:
             if action:
                 if action == "create":
-                    return create_db(event, db)
+                    success, message = create_db(event, db)
                 if action == "drop-db":
-                    return drop_db(event, db)
+                    db_name = event.get('db_name')
+                    if db_name is None:
+                        secret = secrets_service.get_secret_value("db-app-secret", result_type=dict)
+                        db_name = secret.get('dbname', 'exampledb')
+                    success, message = drop_db(db_name, db)
                 if action == "drop-user":
-                    return drop_user(event, db)
+                    success, message = drop_user(event, db)
+        db_manager.destroy()
 
-            return {'success': False,
-                    'message': "Unknown action. Valid actions are 'create', 'drop-db' and 'drop-user'"}
+        if action == "create":
+            secret = secrets_service.get_secret_value("db-app-secret", result_type=dict)
+            db_name = secret.get('dbname', 'exampledb')
+
+            db_manager = DbManager(connection_secret='db-master-secret', db_name=db_name, isolation_level='AUTOCOMMIT')
+            with db_manager as db:
+                add_extensions(db)
+
+        return {'success': success, 'message': message}
+
     except Exception:  # pylint: disable=broad-except
         message = f"setup database failed! Action {action}"
         log.exception(message)
         return {'success': False, 'message': message}
 
 
-def create_db(event, db):
+def create_db(event, db) -> tuple[bool, str]:
     log.info("Creating database role and schema based on db-app-secret")
     secret = secrets_service.get_secret_value("db-app-secret", result_type=dict)
     db_username = secret['username']
@@ -52,14 +72,21 @@ def create_db(event, db):
     if not database_exists(db_name, db):
         encoding = event.get('encoding', 'en_US.UTF8')
         create_data_base(db_name=db_name, owner=db_username, encoding=encoding, db=db)
-        return {'success': True, 'message': f'Database role and schema "{db_name}" created'}
+        return True, f"Database role and schema created. dbname: {db_name} user: {db_username} pwd: {password}"
 
-    return {'success': False, 'message': 'Database already exists'}
+    return False, 'Database already exists'
 
 
-def drop_db(event, db):
+def add_extensions(db):
+    log.info("Creating extensions")
+    db.session.execute(text('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'))
+    db.session.commit()
+    log.info("Extensions created")
+    return True
+
+
+def drop_db(db_name: str, db) -> tuple[bool, str]:
     log.info("Dropping database schema")
-    db_name = event['db_name']
     if "'" in db_name:
         raise Exception("Bad database name")  # pylint:disable=broad-exception-raised
 
@@ -71,19 +98,19 @@ def drop_db(event, db):
 
     db.session.execute(text(f"DROP DATABASE {db_name}"))
     db.session.commit()
-    return {'success': True, 'message': 'Database schema dropped'}
+    return True, 'Database schema dropped'
 
 
-def drop_user(event, db):
+def drop_user(event, db) -> tuple[bool, str]:
     log.info("Dropping database user")
 
     username = event['username']
     if "'" in username:
-        raise Exception("Bad database name")  # pylint:disable=broad-exception-raised
+        raise Exception("Bad database user name")  # pylint:disable=broad-exception-raised
 
     db.session.execute(text(f"DROP USER {username}"))
     db.session.commit()
-    return {'success': True, 'message': 'Database user dropped'}
+    return True, 'Database user dropped'
 
 
 def postgres_user_exists(user_name, db):

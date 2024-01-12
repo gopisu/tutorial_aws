@@ -3,7 +3,7 @@ requests
 psycopg2-binary
 sqlalchemy
 alembic
-localstack
+localstack==3.0.2
 invoke
 pytest
 awscli-local

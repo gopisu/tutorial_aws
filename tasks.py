@@ -57,6 +57,13 @@ def dropdb(_):
 
 
 @task
+def dropdbrole(_):
+    payload = {"action": "drop-user", "username": "exampledb"}
+    cmd = f"python ./lambdas/migrations/db_setup.py '{json.dumps(payload)}'"
+    run(cmd, env=env | {'PYTHONPATH': './:./lambdas'})
+
+
+@task
 def unittests(_):
     cmd = 'pytest ./tests/unit'
     run(cmd, env=env | {'PYTHONPATH': './:./lambdas:./tests'})
