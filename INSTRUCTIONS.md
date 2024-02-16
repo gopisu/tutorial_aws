@@ -15,7 +15,7 @@
   - The credential values can be anything.
   - Default region must be `us-east-1`
 ```
-export LOCALSTACK_API_KEY=yourLocalstackPROApiKeyHere
+export LOCALSTACK_AUTH_TOKEN="yourLocalstackPROApiKeyHere"
 python3.11 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
