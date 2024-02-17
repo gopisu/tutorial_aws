@@ -1,3 +1,7 @@
 Query.status:
   kind: UNIT
   dataSource: Lambda_status
+
+Query.weather:
+  kind: UNIT
+  dataSource: Lambda_weather

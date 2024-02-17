@@ -4,7 +4,7 @@ appSync:
   logging:
     level: ALL
   authentication:
-      type: API_KEY
+    type: API_KEY
   apiKeys:
     - test
   schema: gql_schema/*.graphql
@@ -14,7 +14,13 @@ appSync:
       description: 'status Lambda DataSource'
       config:
         functionName: status
-        serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+        serviceRoleArn: { Fn::GetAtt: [ AppSyncLambdaServiceRole, Arn ] }
+    Lambda_weather:
+      type: AWS_LAMBDA
+      description: 'weather Lambda DataSource'
+      config:
+        functionName: weather
+        serviceRoleArn: { Fn::GetAtt: [ AppSyncLambdaServiceRole, Arn ] }
 
   resolvers:
     - ${file(resources/resolvers/generic.yml)}

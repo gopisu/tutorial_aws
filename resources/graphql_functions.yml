@@ -18,3 +18,23 @@ status:
       Action:
         - secretsmanager:GetSecretValue
       Resource: !Ref DBAppSecret
+
+weather:
+  handler: lambdas/weather.handler
+  layers:
+    - !Ref CommonLambdaLayer
+    - !Ref AppLambdaLayer
+  package:
+    patterns:
+      - 'lambdas/weather.py'
+      - 'lambdas/services/**'
+      - '!**/__pycache__/**'
+  environment:
+    DB_APP_SECRET_ARN:
+      Ref: DBAppSecret
+  # todo add open weather api key
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - secretsmanager:GetSecretValue
+      Resource: !Ref DBAppSecret
