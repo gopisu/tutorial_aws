@@ -1,0 +1,41 @@
+name: Python and Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+    - name: Set up Node.js 18.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18.x
+    - name: Install Yarn
+      run: npm install -g yarn
+    - name: Install Python and Node.js dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements_dev.txt
+        yarn
+    - name: Lint Python code
+      run: PYTHONPATH=lambdas pylint ./lambdas
+    - name: Run tests
+      run: invoke alltests
+    - name: Deploy service
+      env:
+        LOG_LEVEL: "DEBUG"
+        LS_LOG: "trace"
+        DEBUG: "1"
+        LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
+      run: yarn deploy
