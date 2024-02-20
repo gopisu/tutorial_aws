@@ -272,3 +272,17 @@ def list_to_dict(items: list, show: list[str] = None):
     for item in items:
         result.append(item.to_dict(show=show))
     return result
+
+
+class SafeDict(dict):
+    def get_nested(self, *args):
+        temp = self
+        for arg in args:
+            if isinstance(temp, dict):
+                temp = temp.get(arg, None)
+            elif isinstance(temp, list):
+                try:
+                    temp = temp[int(arg)]
+                except (IndexError, ValueError):
+                    temp = None
+        return temp
