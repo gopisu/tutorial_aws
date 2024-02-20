@@ -65,13 +65,13 @@ def dropdbrole(_):
 
 @task
 def unittests(_):
-    cmd = 'pytest ./tests/unit'
+    cmd = 'pytest ./tests/unit -vv'
     run(cmd, env=env | {'PYTHONPATH': './:./lambdas:./tests'})
 
 
 @task
 def integrationtests(_):
-    cmd = 'pytest ./tests/integration'
+    cmd = 'pytest ./tests/integration -vv'
     run(cmd, env=env | {'PYTHONPATH': './:./lambdas:./tests:./tests/integration'})
 
 

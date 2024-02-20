@@ -9,3 +9,5 @@ pytest
 awscli-local
 gql[all]
 pylint
+responses==0.25.0
+pytest-mock
