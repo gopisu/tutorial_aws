@@ -42,7 +42,7 @@ jobs:
           LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
         run: yarn deploy
       - name: Run tests
-        run: invoke alltests
+        run: source venv/bin/activate && invoke alltests
 
 
   trivy_scan:
@@ -84,4 +84,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Lint Python code
-        run: PYTHONPATH=lambdas pylint ./lambdas
+        run: source venv/bin/activate && PYTHONPATH=lambdas pylint ./lambdas
