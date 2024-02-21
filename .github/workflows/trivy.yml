@@ -1,12 +1,12 @@
-name: build
+name: trivy
 on:
   push:
     branches:
       - main
   pull_request:
 jobs:
-  build:
-    name: Build
+  trivy:
+    name: Trivy vulnerability scanner
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
