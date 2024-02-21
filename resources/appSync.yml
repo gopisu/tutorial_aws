@@ -24,3 +24,42 @@ appSync:
 
   resolvers:
     - ${file(resources/resolvers/generic.yml)}
+
+
+AppSyncRDSDataSource:
+  Type: "AWS::AppSync::DataSource"
+  Properties:
+    ApiId: !GetAtt AppSyncApi.ApiId
+    Name: RDSDataSource
+    Type: RELATIONAL_DATABASE
+    Description: RDS data source
+    ServiceRoleArn: !GetAtt AppSyncDataSourceServiceRole.Arn
+    RelationalDatabaseConfig:
+      RelationalDatabaseSourceType: RDS_HTTP_ENDPOINT
+      RdsHttpEndpointConfig:
+        AwsRegion: !Ref AWS::Region
+        DbClusterIdentifier: !GetAtt DBCluster.Arn
+        Schema: public
+        DatabaseName: test
+        AwsSecretStoreArn: !Ref DBMasterSecret
+
+AppSyncDataSourceServiceRole:
+  Type: "AWS::IAM::Role"
+  Properties:
+    AssumeRolePolicyDocument:
+      Version: "2012-10-17"
+      Statement:
+        - Effect: "Allow"
+          Principal:
+            Service: "appsync.amazonaws.com"
+          Action: "sts:AssumeRole"
+    Policies:
+      - PolicyName: "AppSyncDataSourceAccess"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Action:
+                - "rds-data:*"
+                - "secretsmanager:GetSecretValue"
+              Resource: "*"

@@ -1,13 +1,18 @@
-schema {
-    query: Query
-}
-
 type Status {
     status: String!
     dataSize: Int!
 }
 
+
 type Query {
     weather(cityName: String!): Weather
     status: Status!
+    getPet(id: ID!): Pet
+    listPets: [Pet]
+    listPetsByPriceRange(min: Float, max: Float): [Pet]
+}
+
+schema {
+    query: Query
+    mutation: Mutation
 }
