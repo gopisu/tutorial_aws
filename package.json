@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "serverless": "^3.35.2",
+    "serverless": "^3.38.0",
     "serverless-appsync-plugin": "^2.7.0",
     "serverless-iam-roles-per-function": "^3.2.0",
     "serverless-localstack": "^1.1.2",
