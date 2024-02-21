@@ -51,7 +51,6 @@ def test_get_weather(mocker):
 
 def test_get_weather_invalid_city(mocker):
     # Arrange
-    os.environ['AWS_REGION'] = 'us-west-2'  # Set the environment variable
     mocker.patch('lambdas.services.weather_service.secrets_service.get_secret_value', return_value='weather_api_key')
     service = OpenWeatherService()
 
