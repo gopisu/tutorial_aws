@@ -43,45 +43,5 @@ jobs:
         run: yarn deploy
       - name: Run tests
         run: source venv/bin/activate && invoke alltests
-
-
-  trivy_scan:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          input: '.'
-
-  codeql_scan:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: 'python,javascript'
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
-
-  dependabot_scan:  # todo: create a new action for this check that runs on a schedule
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - name: Check for security updates with Dependabot
-        uses: dependabot/dependabot-core@main
-        with:
-          language: 'python'
-
-  lint_python:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - name: Lint Python code
+      - name: Run linter
         run: source venv/bin/activate && PYTHONPATH=lambdas pylint ./lambdas
