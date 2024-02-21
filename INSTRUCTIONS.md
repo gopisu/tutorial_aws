@@ -4,6 +4,7 @@
 - You need to have [Docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed.
   - For Macos [Docker desktop](https://www.docker.com/products/docker-desktop/) is recommended
 - You need to have account for Localstack Pro. If you don't you can get a free trial from https://localstack.cloud/
+- You need to have an API key for OpenWeatherMap. You can get it from https://openweathermap.org/api
 - Install [AWS Command Line Interface](https://aws.amazon.com/cli/)
 - Install [NodeJS](https://nodejs.org/en) v18+
 - Install [Yarn](https://yarnpkg.com/) globally
@@ -15,6 +16,7 @@
   - The credential values can be anything.
   - Default region must be `us-east-1`
 ```
+export OPENWEATHER_API_KEY=yourapikeyhere
 export LOCALSTACK_AUTH_TOKEN="yourLocalstackPROApiKeyHere"
 python3.11 -m venv venv
 source venv/bin/activate

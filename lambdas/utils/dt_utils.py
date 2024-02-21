@@ -43,6 +43,11 @@ def datetime_from_millis(millis, tz=None) -> datetime:
     return datetime.fromtimestamp(float(millis) / 1000, tz)
 
 
+def datetime_from_seconds(seconds, tz=None) -> datetime:
+    seconds *= 1000
+    return datetime_from_millis(seconds, tz)
+
+
 class Timer:
     def __init__(self, level=log.DEBUG):
         self.level = level
