@@ -3434,10 +3434,10 @@ serverless-iam-roles-per-function@^3.2.0:
   dependencies:
     lodash "^4.17.20"
 
-serverless-localstack@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/serverless-localstack/-/serverless-localstack-1.1.2.tgz#01b53ad3c4067637ff1a08a860cb50aafd6e478c"
-  integrity sha512-62YN9icC9x7t1lmN8MC4v++jB13to19Z98OZfBjsswiU/Co3DrELUmAgiwGgE+f1RUDRpmtxu9T3cN2T05aGsQ==
+serverless-localstack@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/serverless-localstack/-/serverless-localstack-1.2.0.tgz#40d4ed94763bc46725cb3d8092a075a632fb1d0f"
+  integrity sha512-JXdh1QeaSKmHU57VvfIOEEuANdaUi9J0Y86L0N+BRy04uxu8F22Mup/LxVQnzPl12eolc0Xi5HmtbZGv/H2ufQ==
   dependencies:
     adm-zip "^0.5.10"
     aws-sdk "^2.402.0"

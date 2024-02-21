@@ -3,7 +3,7 @@
     "serverless": "^3.35.2",
     "serverless-appsync-plugin": "^2.7.0",
     "serverless-iam-roles-per-function": "^3.2.0",
-    "serverless-localstack": "^1.1.2",
+    "serverless-localstack": "^1.2.0",
     "serverless-vpc-plugin": "^1.0.6",
     "shelljs": "^0.8.5"
   },
