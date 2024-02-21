@@ -8,6 +8,6 @@ type Status {
 }
 
 type Query {
-    weather: Weather!
+    weather(cityName: String!): Weather
     status: Status!
 }
