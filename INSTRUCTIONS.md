@@ -61,7 +61,7 @@ DEBUG="1"
 ```
 
 ### Generating database migrations
-- Run separate instance of the PostgreSQL database by starting it up with the following command ´docker-compose up -d´
+- Run separate instance of the PostgreSQL database by starting it up with the following command ´docker-compose up -d db´
 - Create the database with command `invoke createdb`
 - Run existing migrations with command `invoke migratedb`
 - Do your modifications to database model in file models.py

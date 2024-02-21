@@ -8,11 +8,13 @@
     "shelljs": "^0.8.5"
   },
   "scripts": {
-    "deploy": "yarn run start_localstack && run setup && yarn run dropdb && yarn run createdb && yarn run migratedb",
+    "deploy": "yarn run start_localstack && yarn run setup && yarn run dropdb && yarn run createdb && yarn run migratedb",
     "setup": "EXTRA_CORS_ALLOWED_ORIGINS=* LAMBDA_MOUNT_CWD=$(pwd) serverless deploy --param architecture=x86_64 --verbose",
     "deploy_arm": "yarn run start_localstack && yarn run setup_arm && yarn run dropdb && yarn run createdb && yarn run migratedb",
     "setup_arm": "EXTRA_CORS_ALLOWED_ORIGINS=* LAMBDA_MOUNT_CWD=$(pwd) DNS_ADDRESS=0.0.0.0 GATEWAY_LISTEN=0.0.0.0:4566 serverless deploy --param architecture=arm64 --verbose",
-    "start_localstack": "IMAGE_NAME=localstack/localstack-pro:3.0.2 ./venv/bin/localstack start --detached && ./venv/bin/localstack wait -t 30",
+    "start_localstack": "yarn run create_localstack && yarn run restart_localstack",
+    "create_localstack": "docker-compose -f ./docker-compose.yml up  --force-recreate -d localstack || echo 'Failed to start LocalStack'",
+    "restart_localstack": "docker-compose -f ./docker-compose.yml restart localstack",
     "createdb": "serverless invoke -f dbsetup --path ./createdb.json -l",
     "dropdb": "serverless invoke -f dbsetup --path ./dropdb.json -l",
     "migratedb": "serverless invoke -f dbmigrations -l",
