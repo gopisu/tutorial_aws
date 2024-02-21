@@ -24,6 +24,9 @@ yarn
 ```
 
 ## Running the service
+### Prepare environment values:
+Obtain OpenWeather API key from https://openweathermap.org/api and `export OPENWEATHER_API_KEY=yourapikeyhere`
+
 ### Running on ARM architecture
 `LOG_LEVEL="DEBUG" LS_LOG="trace" DEBUG="1" yarn deploy_arm`
 
