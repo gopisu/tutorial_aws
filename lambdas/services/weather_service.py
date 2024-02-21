@@ -7,7 +7,7 @@ from lambdas.utils.validators import raise_not_defined
 
 class OpenWeatherService:
     def __init__(self):
-        self.api_key = secrets_service.get_secret_value("open-weather-api-key-secret")
+        self.api_key = secrets_service.get_secret_value("open-weather-api-token-secret")
 
     def get_weather(self, city):
         raise_not_defined('city', city)
