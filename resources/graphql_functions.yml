@@ -30,11 +30,10 @@ weather:
       - 'lambdas/services/**'
       - '!**/__pycache__/**'
   environment:
-    DB_APP_SECRET_ARN:
-      Ref: DBAppSecret
-  # todo add open weather api key
+    OPENWEATHER_API_TOKEN_SECRET_ARN:
+      Ref: OpenWeatherAPITokenSecret
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - secretsmanager:GetSecretValue
-      Resource: !Ref DBAppSecret
+      Resource: !Ref OpenWeatherAPITokenSecret
