@@ -1,6 +1,7 @@
 import logging
 
 import requests
+
 from lambdas.services import secrets_service
 from lambdas.utils.common import SafeDict
 from lambdas.utils.dt_utils import datetime_from_seconds
@@ -23,8 +24,6 @@ class OpenWeatherService:
         if response_code != 200:
             raise Exception(f'OpenWeather API failed with {response_code=}')  # pylint:disable=broad-exception-raised
         data = response.json()
-        LOG.log(level=logging.DEBUG, msg=data)
-
         weather = weather_reducer(data)
         return weather
 
