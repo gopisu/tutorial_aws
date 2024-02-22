@@ -1,0 +1,24 @@
+Resources:
+  CreatePetResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Mutation
+      FieldName: createPet
+      DataSourceName: !GetAtt AppSyncRDSDataSource.Name
+      RequestMappingTemplate: |
+        #set($id=$utils.autoId())
+        {
+          "version": "2024-02-23",
+          "statements": [
+            "insert into Pets VALUES (:ID, :TYPE, :PRICE)",
+            "select * from Pets WHERE id = :ID"
+          ],
+          "variableMap": {
+            ":ID": "$ctx.args.input.id",
+            ":TYPE": $util.toJson($ctx.args.input.type),
+            ":PRICE": $util.toJson($ctx.args.input.price)
+          }
+        }
+      ResponseMappingTemplate: |
+        $utils.toJson($ctx.result)

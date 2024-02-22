@@ -24,6 +24,7 @@ appSync:
 
   resolvers:
     - ${file(resources/resolvers/generic.yml)}
+    - ${file(resources/resolvers/pet.yml)}
 
 
 AppSyncRDSDataSource:
