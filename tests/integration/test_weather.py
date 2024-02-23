@@ -73,3 +73,25 @@ def assert_structure_and_type(weather_dict):
                                      'humidity', 'windSpeed']
     for key in weather['currentWeather'].keys():
         assert key in expected_current_weather_keys, f"Unexpected key '{key}' in 'currentWeather' dictionary"
+
+
+def test_pet(ctx):
+    petDetails = {
+        "id": '1',
+        "type": 'dog',
+        "price": "123.45"
+    }
+
+    client = get_gql_client(ctx=ctx)
+    ds: DSLSchema = DSLSchema(client.schema)
+
+    mutation = DSLMutation(
+        ds.Mutation.createPet(input=petDetails).select(
+            ds.Pet.id(),
+            ds.Pet.type(),
+            ds.Pet.price(),
+        )
+    )
+
+    result = client.execute(mutation)
+    print(result)

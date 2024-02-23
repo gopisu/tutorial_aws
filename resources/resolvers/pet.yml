@@ -21,4 +21,4 @@ Resources:
           }
         }
       ResponseMappingTemplate: |
-        $utils.toJson($ctx.result)
+        $utils.toJson($utils.rds.toJsonObject($ctx.result)[1][0])
