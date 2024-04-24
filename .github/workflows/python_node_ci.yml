@@ -34,9 +34,8 @@ jobs:
           echo -e "[serverless]\naws_access_key_id = anyvalue\naws_secret_access_key = anyvalue\nregion = us-east-1" > ~/.aws/credentials
       - name: Deploy service
         env:
-          LOG_LEVEL: "DEBUG"
-          LS_LOG: "trace"
-          DEBUG: "1"
+          LOG_LEVEL: "ERROR"
+          DEBUG: "0"
           LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
           OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
         run: yarn deploy

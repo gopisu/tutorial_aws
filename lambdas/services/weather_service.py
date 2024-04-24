@@ -1,13 +1,20 @@
+import logging
+
 import requests
+
 from lambdas.services import secrets_service
 from lambdas.utils.common import SafeDict
 from lambdas.utils.dt_utils import datetime_from_seconds
 from lambdas.utils.validators import raise_not_defined
 
+LOG = logging.getLogger(__name__)
+
 
 class OpenWeatherService:
+
     def __init__(self):
-        self.api_key = secrets_service.get_secret_value("open-weather-api-token-secret")
+        LOG.log(level=logging.DEBUG, msg="test key")
+        self.api_key = secrets_service.get_secret_value("openweather-api-token-secret", result_type=str)
 
     def get_weather(self, city):
         raise_not_defined('city', city)

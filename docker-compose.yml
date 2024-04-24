@@ -10,7 +10,7 @@ services:
       - '5432:5432'
   localstack:
     container_name: "localstack-main"
-    image: localstack/localstack-pro  # required for Pro
+    image: localstack/localstack-pro:3.0.2   # required for Pro
     ports:
       - "127.0.0.1:4566:4566"
       - "127.0.0.1:4510-4559:4510-4559"
